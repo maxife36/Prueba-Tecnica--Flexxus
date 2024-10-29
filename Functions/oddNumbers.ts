@@ -4,4 +4,4 @@ function oddNumbers(start = 0, end = 100){
     }
 }
 
-module.exports = oddNumbers
+export default oddNumbers

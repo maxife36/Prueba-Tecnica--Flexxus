@@ -1,4 +1,4 @@
-const oddNumbers = require('./oddNumbers');
+import oddNumbers from './oddNumbers'
 
 describe('Pruebas de la función oddNumbers', () => {
     // Guardamos el console.log original

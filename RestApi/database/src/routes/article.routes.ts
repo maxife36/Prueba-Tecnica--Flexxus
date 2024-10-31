@@ -1,20 +1,13 @@
 import { Router } from "express";
-import {
-    getAllArticles,
-    getFilteredArticles,
-    getArticle,
-    createArticle,
-    updateArticle,
-    deleteArticle
-} from "../controllers/article.controllers";
+import controllers from "../controllers/article.controllers";
 
 const router = Router();
 
-router.get("/", getAllArticles);
-router.get("/filter", getFilteredArticles);
-router.get("/:id", getArticle);
-router.post("/", createArticle);
-router.patch("/:id", updateArticle);
-router.delete("/:id", deleteArticle);
+router.get("/", controllers.getAllArticles);
+router.get("/filter", controllers.getFilteredArticles);
+router.get("/:id", controllers.getArticle);
+router.post("/", controllers.createArticle);
+router.patch("/:id", controllers.updateArticle);
+router.delete("/:id", controllers.deleteArticle);
 
 export default router;

@@ -1,0 +1,19 @@
+services:
+  mysql-queries:
+    image: mysql:8
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-ContraseñaSecreta}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-flexxus_db}
+    ports:
+      - "${MYSQL_HOST_PORT:-3308}:${MYSQL_CONTAINER_PORT:-3306}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./config:/docker-entrypoint-initdb.d # Este es un punto de monatje para ejecutar archivos sql una vez levantado el servicio
+    healthcheck:  
+      test: ["CMD", "mysqladmin", "ping", "-h", " mysql-queries", "-P", "${MYSQL_CONTAINER_PORT:-3306}", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-ContraseñaSecreta}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  mysql_data:

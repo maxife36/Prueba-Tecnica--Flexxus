@@ -11,6 +11,8 @@ COPY ./database/package*.json .
 RUN npm install
 
 COPY ./handlers ./src/handlers
+COPY ./auth ./src/auth
+
 COPY ./database .
 
 RUN npm run build 

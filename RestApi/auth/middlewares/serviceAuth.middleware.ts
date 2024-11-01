@@ -18,7 +18,7 @@ class ServiceAuthMiddleware {
       req: Request,
       res: Response,
       next: NextFunction
-    ) => Promise<void>;
+    ) => void;
   } = {};
 
   constructor(currentService: string, authorizedService: string[]) {
@@ -34,13 +34,13 @@ class ServiceAuthMiddleware {
   }
 
   private static serviceAuthGenerator(authorizedService: string) {
-    const serviceAuth = async (
+    const serviceAuth =  (
       req: Request,
       res: Response,
       next: NextFunction
     ) => {
       try {
-        const token = req.cookies.serviceSignature;
+        const token = req.cookies.originService;        
 
         if (!token) {
           throw new ForbiddenError();
@@ -61,19 +61,13 @@ class ServiceAuthMiddleware {
     return serviceAuth
   }
 
-  async serviceSignature(req: Request, res: Response, next: NextFunction) {
+  serviceSignature = (req: Request, res: Response, next: NextFunction) => {
     try {
-      const payload: SignaturePayload = { service: this.currentService };
-
-      const token = TokenUtils.generateToken(payload);
-
-      res.cookie("serviceSignature", token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 5,
-      });
-
-      console.log(`COOKIE   --- >>> ${req.cookies}`);
+      const payload: SignaturePayload = { service: this.currentService }
       
+      const token = TokenUtils.generateToken(payload);
+      
+      req.cookies.currentService = token
 
       next();
     } catch (error) {

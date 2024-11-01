@@ -45,17 +45,17 @@ class ArticlesControllers {
     next: NextFunction
   ) {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 50;
-      const exact = (req.query.exact as string) === "true" ? true : false;
+      const { page, limit, exact, ...queryParams } = req.query;
 
-      const queryParams = req.query;
+      const pageValue = parseInt(page as string) || 1;
+      const limitValue = parseInt(limit as string) || 50;
+      const exactValue = (exact as string) === "true" ? true : false;
 
       const { count, rows, totalPages } =
         await ArticleService.getFilteredArticles(queryParams, {
-          exact,
-          page,
-          limit,
+          exact: exactValue,
+          page:pageValue,
+          limit:limitValue,
         });
 
       const metadata = {
@@ -92,7 +92,7 @@ class ArticlesControllers {
 
       await ArticleService.updateArticle(registerId, body);
 
-      return responseHandler(res, {}, HttpStatusCode.NO_CONTENT, {
+      return responseHandler(res, [], HttpStatusCode.OK, {
         message: SuccessMessage.RESOURCE_UPDATED,
       });
     } catch (error) {
@@ -106,7 +106,7 @@ class ArticlesControllers {
       
       await ArticleService.deleteArticle(registerId)
 
-      return responseHandler(res, {}, HttpStatusCode.NO_CONTENT, {
+      return responseHandler(res, [], HttpStatusCode.OK, {
         message: SuccessMessage.RESOURCE_DELETED,
       });
     } catch (error) {

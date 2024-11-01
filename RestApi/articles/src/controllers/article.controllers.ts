@@ -45,19 +45,20 @@ class ArticlesControllers {
     next: NextFunction
   ) {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 50;
-      const exact = (req.query.exact as string) === "true" ? true : false;
+      const { page, limit, exact, ...queryParams } = req.query;
+
+      const pageValue = parseInt(page as string) || 1;
+      const limitValue = parseInt(limit as string) || 50;
+      const exactValue = (exact as string) === "true" ? true : false;
+
       const currentService = req.cookies.currentService;
-
-      const queryParams = req.query;
-
+      
       const articles = await ArticleService.getFilteredArticles(
         queryParams,
         {
-          exact,
-          page,
-          limit,
+          exact: exactValue,
+          page:pageValue,
+          limit:limitValue,
         },
         currentService
       );

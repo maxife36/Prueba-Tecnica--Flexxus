@@ -72,8 +72,8 @@ class ArticleService {
 
     const stringParams = requestedParams ? `&${requestedParams}` : "";
 
-    const url = `${databaseServiceUrl}?page=${page}&limit=${limit}&exact=${exact}${stringParams}`;
-
+    const url = `${databaseServiceUrl}/filter?page=${page}&limit=${limit}&exact=${exact}${stringParams}`;
+  
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -129,11 +129,12 @@ class ArticleService {
     });
 
     if (!response.ok) {
+      
       const errorData: ExternalserviceError = await response.json();
-
+      
       throw new ExternalApiError(errorData);
     }
-
+    
     const article: SuccessResponse = await response.json();
 
     return article;

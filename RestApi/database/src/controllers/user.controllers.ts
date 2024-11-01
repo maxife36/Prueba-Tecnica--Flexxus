@@ -71,7 +71,7 @@ class UserControllers {
 
       await UserService.updateUser(userId, body)
 
-      return responseHandler(res, {}, HttpStatusCode.NO_CONTENT, {
+      return responseHandler(res, {}, HttpStatusCode.OK, {
         message: SuccessMessage.RESOURCE_UPDATED,
       });
     } catch (error) {
@@ -85,7 +85,7 @@ class UserControllers {
       
       await UserService.deleteUser(userId)
 
-      return responseHandler(res, {}, HttpStatusCode.NO_CONTENT, {
+      return responseHandler(res, {}, HttpStatusCode.OK, {
         message: SuccessMessage.RESOURCE_DELETED,
       });
     } catch (error) {

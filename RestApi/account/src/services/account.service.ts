@@ -16,7 +16,7 @@ dotenv.config({ path: path.resolve( '../.env') });;
 
 const DATABASE_PORT = process.env.DATABASE_HOST_PORT;
 
-const databaseServiceUrl = `http://localhost:${DATABASE_PORT}/api`;
+const databaseServiceUrl = `http://localhost:${DATABASE_PORT}/api/users`;
 
 class AccountService {
   static async register(body:{[key:string]:any}) {
@@ -33,7 +33,7 @@ class AccountService {
     
     userDto.password = hashedPassword;
     
-    const url = `${databaseServiceUrl}/users`;
+    const url = `${databaseServiceUrl}`;
     
     const response = await fetch(url, {
       method: "POST",
@@ -64,7 +64,7 @@ class AccountService {
       throw ValidationErrorHandler(errors);
     }
     
-    const url = `${databaseServiceUrl}/users/filter?username=${userDto.username}`;
+    const url = `${databaseServiceUrl}/filter?username=${userDto.username}`;
     
     const response = await fetch(url,{
       method: "GET",

@@ -6,7 +6,8 @@
     "database": "npm run execute --prefix ./database",
     "account": "npm run execute --prefix ./account",
     "gateway": "npm run execute --prefix ./gateway",
-    "start": "npm i && concurrently \"npm run account\" \"npm run database\" \"npm run gateway\" "
+    "articles": "npm run execute --prefix ./articles",
+    "start": "npm i && concurrently \"npm run account\" \"npm run database\" \"npm run gateway\" \"npm run articles\""
   },
   "keywords": [],
   "author": "",

@@ -29,7 +29,7 @@ class AuthController {
 
       const user = await AccountService.login(body);
       
-      const token = TokenUtils.generateToken({userId: user.id});
+      const token = TokenUtils.generateToken({userId: user.id});      
       
       res.cookie('loggedUser', token, {
         httpOnly: true,

@@ -34,6 +34,7 @@ const errorHandler = (
       error: true,
       statusCode:HttpStatusCode.INTERNAL_SERVER_ERROR,
       message: "Internal Server Error",
+      details: err.message
     });
   }
 };

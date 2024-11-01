@@ -13,8 +13,9 @@ dotenv.config({ path: path.resolve( '../.env') });;
 
 const PORT = process.env.DATABASE_HOST_PORT ?? 3001;
 
-const AuthService = new ServiceAuthMiddleware("database", ["account"])
+const AuthService = new ServiceAuthMiddleware("database", ["account","article"])
 const accountAuth = AuthService.authMiddlewares.account
+const articleAuth = AuthService.authMiddlewares.article
 
 const app = express();
 app.use(express.json())
@@ -23,7 +24,7 @@ app.use(cookieParser());
 app.use(AuthService.serviceSignature)
 
 
-app.use("/api/articles", LoggedAuth,  ArticleRoutes);
+app.use("/api/articles", articleAuth,  ArticleRoutes);
 app.use("/api/users", accountAuth ,userRoutes);
 
 

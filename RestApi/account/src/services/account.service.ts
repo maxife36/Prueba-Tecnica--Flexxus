@@ -17,25 +17,27 @@ const DATABASE_PORT = process.env.DATABASE_CONTAINER_PORT;
 const databaseServiceUrl = `http://database:${DATABASE_PORT}/api`;
 
 class AccountService {
-  static async register(body:object) {
+  static async register(body:{[key:string]:any}) {
+    
     const userDto = UserDto.fromPlain(body);
     
     let errors = await validate(userDto);
-
+    
     if (errors.length > 0) {
       throw ValidationErrorHandler(errors);
     }
-
+    
     const hashedPassword = await bcrypt.hash(userDto.password, 10);
-
+    
     userDto.password = hashedPassword;
-
+    
     const url = `${databaseServiceUrl}/users`;
-
+    
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Cookie": `originService=${body.currentService}`
       },
       body: JSON.stringify(userDto),
     });
@@ -51,7 +53,7 @@ class AccountService {
     return user.data;
   }
 
-  static async login(body:object) {
+  static async login(body:{[key:string]:any}) {
 
     const userDto = LoginUserDto.fromPlain(body);
     let errors = await validate(userDto);
@@ -62,7 +64,12 @@ class AccountService {
 
     const url = `${databaseServiceUrl}/users/filter?username=${userDto.username}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url,{
+      method: "GET",
+      headers: {
+        "Cookie": `originService=${body.currentService}`
+      }
+    });
 
     if (!response.ok) {
       const errorData: ExternalserviceError = await response.json();

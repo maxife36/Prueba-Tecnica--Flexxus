@@ -8,6 +8,7 @@ class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const body = req.body
+      body.currentService = req.cookies.currentService
 
       const user = await AccountService.register(body);
 

@@ -15,15 +15,14 @@ const AuthService = new ServiceAuthMiddleware("database", ["account"])
 const accountAuth = AuthService.authMiddlewares.account
 
 const app = express();
-
 app.use(express.json())
 app.use(cookieParser());
+app.use(AuthService.serviceSignature)
 
 
 app.use("/api/articles", LoggedAuth,  ArticleRoutes);
 app.use("/api/users", accountAuth ,userRoutes);
 
-app.use(AuthService.serviceSignature)
 
 app.use(errorHandler);
 

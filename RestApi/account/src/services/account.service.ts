@@ -10,11 +10,13 @@ import { ValidationErrorHandler } from "../handlers/validationErrorHandler";
 import { ForbiddenError } from "../handlers/errors/Errors";
 import { validate } from "class-validator";
 
-dotenv.config();
+import path from 'path';
 
-const DATABASE_PORT = process.env.DATABASE_CONTAINER_PORT;
+dotenv.config({ path: path.resolve( '../.env') });;
 
-const databaseServiceUrl = `http://database:${DATABASE_PORT}/api`;
+const DATABASE_PORT = process.env.DATABASE_HOST_PORT;
+
+const databaseServiceUrl = `http://localhost:${DATABASE_PORT}/api`;
 
 class AccountService {
   static async register(body:{[key:string]:any}) {
@@ -41,7 +43,7 @@ class AccountService {
       },
       body: JSON.stringify(userDto),
     });
-
+    
     if (!response.ok) {
       const errorData: ExternalserviceError = await response.json();
 

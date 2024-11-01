@@ -7,9 +7,11 @@ import errorHandler from "./src/handlers/errorHandler";
 import ServiceAuthMiddleware from "./src/auth/middlewares/serviceAuth.middleware";
 import LoggedAuth from "./src/auth/middlewares/userLogged.middleware";
 
-dotenv.config();
+import path from 'path';
 
-const PORT = process.env.DATABASE_CONTAINER_PORT ?? 3003;
+dotenv.config({ path: path.resolve( '../.env') });;
+
+const PORT = process.env.DATABASE_HOST_PORT ?? 3001;
 
 const AuthService = new ServiceAuthMiddleware("database", ["account"])
 const accountAuth = AuthService.authMiddlewares.account

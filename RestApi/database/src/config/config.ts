@@ -1,13 +1,15 @@
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
-dotenv.config();
+import path from 'path';
 
-const { MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_CONTAINER_PORT } = process.env;
+dotenv.config({ path: path.resolve( '../.env') });;
 
-const ROOT_PASSWORD = MYSQL_ROOT_PASSWORD ?? "secret";
-const DATABASE = MYSQL_DATABASE ?? "custome_db";
-const CONTAINER_PORT = MYSQL_CONTAINER_PORT ?? "3306";
-const HOST = "mysql";
+const { MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_PORT } = process.env;
+
+const ROOT_PASSWORD = MYSQL_ROOT_PASSWORD ?? "secreto";
+const DATABASE = MYSQL_DATABASE ?? "flexxus_db";
+const CONTAINER_PORT = MYSQL_PORT ?? "3306";
+const HOST = "localhost";
 const USERNAME = "root";
 
 const sequelize = new Sequelize(DATABASE, USERNAME, ROOT_PASSWORD, {

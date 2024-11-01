@@ -1,15 +1,22 @@
-import express, {Request, Response,NextFunction} from "express";
+import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import { createProxyMiddleware, Options } from "http-proxy-middleware";
+import axios from "axios"; // Importa axios
 import ServiceAuthMiddleware from "./src/auth/middlewares/serviceAuth.middleware";
-import attachCookiesMiddleware from "middlewares/attachCookies.middleware";
+import attachCookiesMiddleware from "./utils/attachCookies.utils";
+import errorHandler from "./src/handlers/errorHandler";
+import { ExternalApiError, ExternalserviceError } from "./src/handlers/errors/ExternalApiError";
+import { HttpStatusCode, SuccessMessage } from "./src/handlers/enums";
+import { responseHandler, SuccessResponse } from "./src/handlers/responseHandler";
+import customeProxy from "./utils/customeProxy.utils";
 
-dotenv.config();
+import path from 'path';
 
-const PORT = process.env.GATEWAY_CONTAINER_PORT ?? 3000;
-const ACCOUNT_PORT = process.env.ACCOUNT_CONTAINER_PORT ?? 3001;
-const DATABASE_PORT = process.env.DATABASE_CONTAINER_PORT ?? 3003;
+dotenv.config({ path: path.resolve( '../.env') });;
+
+const PORT = process.env.GATEWAY_HOST_PORT ?? 3000;
+const ACCOUNT_PORT = process.env.ACCOUNT_HOST_PORT ?? 3002;
+const DATABASE_PORT = process.env.DATABASE_HOST_PORT ?? 3306;
 
 const AuthService = new ServiceAuthMiddleware("gateway", []);
 
@@ -20,23 +27,13 @@ app.use(cookieParser());
 app.use(AuthService.serviceSignature);
 
 
-app.use(attachCookiesMiddleware)
+const accountProxy = new customeProxy("/account", Number(ACCOUNT_PORT))
+app.use("/account", accountProxy.on());
 
-app.use(
-  "/account",
-  createProxyMiddleware({
-    target: `http://account:${ACCOUNT_PORT}`,
-    changeOrigin: true,
-  })
-);
+const databaseProxy = new customeProxy("/database", Number(DATABASE_PORT))
+app.use("/database", databaseProxy.on());
 
-app.use(
-  "/database",
-  createProxyMiddleware({
-    target: `http://database:${DATABASE_PORT}`,
-    changeOrigin: true,
-  })
-);
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Gateway microservice up on port ${PORT}`);

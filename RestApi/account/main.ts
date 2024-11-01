@@ -11,7 +11,7 @@ dotenv.config({ path: path.resolve( '../.env') });
 
 const PORT = process.env.ACCOUNT_HOST_PORT ?? 3002
 
-const AuthService = new ServiceAuthMiddleware("account", [])
+const AuthService = new ServiceAuthMiddleware("account",[])
 
 const app = express()
 

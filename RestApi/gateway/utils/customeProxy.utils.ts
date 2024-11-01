@@ -21,7 +21,6 @@ class customeProxy {
       return async (req: Request, res: Response, next: NextFunction) => {
         try {
           const apiUrl = `http://localhost:${this.port}${req.originalUrl.replace(`${this.route}`, "")}`;
-          console.log(apiUrl);
           
           const response = await fetch(apiUrl, {
             method: req.method,
@@ -37,10 +36,9 @@ class customeProxy {
             throw new ExternalApiError(errorData);
           }
   
-          const user: SuccessResponse = await response.json();
-          return responseHandler(res, user, HttpStatusCode.CREATED, {
-            message: SuccessMessage.RESOURCE_CREATED,
-          });
+          const data: SuccessResponse = await response.json();
+
+          res.status(data.statusCode).json(data)
         } catch (error) {
           next(error);
         }

@@ -8,6 +8,7 @@ type Metadata = {
 
 export type SuccessResponse = {
   error: boolean;
+  statusCode: number;
   data: { [key: string]: any };
   metadata: {
     message?: SuccessMessage;
@@ -25,6 +26,7 @@ export const responseHandler = (
   res.status(statusCode).json({
     error: false,
     data,
+    statusCode,
     metadata: {
       ...metadata,
       timestamp: new Date().toISOString(),

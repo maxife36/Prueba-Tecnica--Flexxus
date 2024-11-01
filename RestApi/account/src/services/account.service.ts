@@ -63,16 +63,16 @@ class AccountService {
     if (errors.length > 0) {
       throw ValidationErrorHandler(errors);
     }
-
+    
     const url = `${databaseServiceUrl}/users/filter?username=${userDto.username}`;
-
+    
     const response = await fetch(url,{
       method: "GET",
       headers: {
         "Cookie": `originService=${body.currentService}`
       }
     });
-
+    
     if (!response.ok) {
       const errorData: ExternalserviceError = await response.json();
       throw new ExternalApiError(errorData);

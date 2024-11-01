@@ -25,11 +25,12 @@ class AuthController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const body = req.body
+      body.currentService = req.cookies.currentService
 
       const user = await AccountService.login(body);
-
+      
       const token = TokenUtils.generateToken({userId: user.id});
-
+      
       res.cookie('loggedUser', token, {
         httpOnly: true,
         maxAge: 1000*60*60,

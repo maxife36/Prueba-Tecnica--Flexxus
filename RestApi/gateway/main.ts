@@ -1,13 +1,8 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import axios from "axios"; // Importa axios
 import ServiceAuthMiddleware from "./src/auth/middlewares/serviceAuth.middleware";
-import attachCookiesMiddleware from "./utils/attachCookies.utils";
 import errorHandler from "./src/handlers/errorHandler";
-import { ExternalApiError, ExternalserviceError } from "./src/handlers/errors/ExternalApiError";
-import { HttpStatusCode, SuccessMessage } from "./src/handlers/enums";
-import { responseHandler, SuccessResponse } from "./src/handlers/responseHandler";
 import customeProxy from "./utils/customeProxy.utils";
 
 import path from 'path';

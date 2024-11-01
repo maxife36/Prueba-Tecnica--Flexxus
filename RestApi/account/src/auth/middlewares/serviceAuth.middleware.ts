@@ -48,6 +48,10 @@ class ServiceAuthMiddleware {
 
         const decoded = TokenUtils.decodeToken(token) as SignaturePayload;
 
+        console.log(`ORIGINE SERVICE -> ${decoded}`);
+        console.log(`AUTH SERVICE -> ${authorizedService}`);
+        console.log(decoded.service !== authorizedService);
+        
         if (decoded.service !== authorizedService) {
           throw new ForbiddenError();
         }

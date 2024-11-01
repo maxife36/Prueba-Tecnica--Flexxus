@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import TokenUtils from "../utils/tokenUtils";
 import { ForbiddenError } from "../../handlers/errors/Errors";
 
-type LoggedUserPayload = { userID: string };
+type LoggedUserPayload = { userId: string };
 
 export default async function LoggedAuth(
   req: Request,
@@ -18,7 +18,7 @@ export default async function LoggedAuth(
 
     const decoded = TokenUtils.decodeToken(token) as LoggedUserPayload;
 
-    if (!decoded.userID) throw new ForbiddenError();
+    if (!decoded.userId) throw new ForbiddenError();
 
     next();
   } catch (error) {

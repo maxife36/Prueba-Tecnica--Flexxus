@@ -42,8 +42,8 @@ class UserControllers {
     try {
       const queryParams = req.query
      
-      const user = await UserService.getUserFilter(queryParams)
-
+     const user = await UserService.getUserFilter(queryParams)
+     
       return responseHandler(res, user);
     } catch (error) {
       next(error);

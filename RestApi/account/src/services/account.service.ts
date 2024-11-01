@@ -10,11 +10,13 @@ import { ValidationErrorHandler } from "../handlers/validationErrorHandler";
 import { ForbiddenError } from "../handlers/errors/Errors";
 import { validate } from "class-validator";
 
-dotenv.config();
+import path from 'path';
 
-const DATABASE_PORT = process.env.DATABASE_CONTAINER_PORT;
+dotenv.config({ path: path.resolve( '../.env') });;
 
-const databaseServiceUrl = `http://database:${DATABASE_PORT}/api`;
+const DATABASE_PORT = process.env.DATABASE_HOST_PORT;
+
+const databaseServiceUrl = `http://localhost:${DATABASE_PORT}/api/users`;
 
 class AccountService {
   static async register(body:{[key:string]:any}) {
@@ -31,7 +33,7 @@ class AccountService {
     
     userDto.password = hashedPassword;
     
-    const url = `${databaseServiceUrl}/users`;
+    const url = `${databaseServiceUrl}`;
     
     const response = await fetch(url, {
       method: "POST",
@@ -41,7 +43,7 @@ class AccountService {
       },
       body: JSON.stringify(userDto),
     });
-
+    
     if (!response.ok) {
       const errorData: ExternalserviceError = await response.json();
 
@@ -61,16 +63,16 @@ class AccountService {
     if (errors.length > 0) {
       throw ValidationErrorHandler(errors);
     }
-
-    const url = `${databaseServiceUrl}/users/filter?username=${userDto.username}`;
-
+    
+    const url = `${databaseServiceUrl}/filter?username=${userDto.username}`;
+    
     const response = await fetch(url,{
       method: "GET",
       headers: {
         "Cookie": `originService=${body.currentService}`
       }
     });
-
+    
     if (!response.ok) {
       const errorData: ExternalserviceError = await response.json();
       throw new ExternalApiError(errorData);

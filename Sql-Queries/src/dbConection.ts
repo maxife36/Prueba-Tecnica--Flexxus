@@ -23,11 +23,11 @@ const connectDb = async function dbConnect() {
     password: EXTERNAL_DB_ROOT_PASSWORD ?? MYSQL_ROOT_PASSWORD ?? "ContraseñaSecreta",
     database: EXTERNAL_DATABASE ?? MYSQL_DATABASE ?? "flexxus_db",
     host: EXTERNAL_DB_HOST ?? "localhost",
-    port: Number(EXTERNAL_DB_PORT ?? MYSQL_HOST_PORT) || 3306,
+    port: Number(EXTERNAL_DB_PORT ?? MYSQL_HOST_PORT) || 3308,
     dialect: (EXTERNAL_DB_DIALECT ?? "mysql") as Dialect,
     logging: false
   };
-
+  
   sequelize = new Sequelize(
     dbConfig.database,
     dbConfig.username,

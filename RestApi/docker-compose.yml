@@ -1,16 +1,16 @@
 services:
-  # gateway:
-  #   build: 
-  #     context: .
-  #     dockerfile: ./gateway/Dockerfile
-  #   env_file:
-  #     - ./.env
-  #   environment:
-  #     - SERVICE_PORT=${GATEWAY_CONTAINER_PORT:-3000}
-  #   ports:
-  #     - "${GATEWAY_HOST_PORT:-3000}:${GATEWAY_CONTAINER_PORT:-3000}"
-  #   networks:
-  #     - RestAPI-flexxus
+  gateway:
+    build: 
+      context: .
+      dockerfile: ./gateway/Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - SERVICE_PORT=${GATEWAY_CONTAINER_PORT:-3000}
+    ports:
+      - "${GATEWAY_HOST_PORT:-3000}:${GATEWAY_CONTAINER_PORT:-3000}"
+    networks:
+      - RestAPI-flexxus
     
   database:
     build:
@@ -35,9 +35,9 @@ services:
     env_file:
       - ./.env
     environment:
-      - SERVICE_PORT=${AUTH_CONTAINER_PORT:-3002}
+      - SERVICE_PORT=${ACCOUNT_CONTAINER_PORT:-3002}
     ports:
-      - "${AUTH_CONTAINER_PORT:-3002}"
+      - "${ACCOUNT_CONTAINER_PORT:-3002}"
     networks:
       - RestAPI-flexxus
 

@@ -7,7 +7,7 @@ import ServiceAuthMiddleware from "./src/auth/middlewares/serviceAuth.middleware
 
 dotenv.config()
 
-const PORT = process.env.AUTH_CONTAINER_PORT ?? 3001
+const PORT = process.env.ACCOUNT_CONTAINER_PORT ?? 3002
 
 const AuthService = new ServiceAuthMiddleware("account", [])
 
@@ -15,14 +15,14 @@ const app = express()
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(AuthService.serviceSignature)
 
 app.use("/api", authRoute)
 
-app.use(AuthService.serviceSignature)
 
 app.use(errorHandler)
 
 app.listen(PORT, () => {
-    console.log(`account microservice up on port ${PORT}`);
+    console.log(`Account microservice up on port ${PORT}`);
 })
 

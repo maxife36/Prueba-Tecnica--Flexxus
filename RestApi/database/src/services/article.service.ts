@@ -32,7 +32,7 @@ class ArticleService {
   }
 
   static async getFilteredArticles(
-    queryParams: object,
+    queryParams: {[key:string]:any},
     config: { exact: boolean; page: number; limit: number }
   ) {
     const { exact, page, limit } = config;

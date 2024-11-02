@@ -227,7 +227,7 @@ El sistema está estructurado utilizando una arquitectura de microservicios, imp
     }
     ```
 
-### 5. Eliminar Artículo
+### 5. Eliminar Artículo (Soft Delete - Desactiva)
 - **Método**: `DELETE -> http://localhost:3000/article/api/articles/:id`
 - **Respuesta**: Mensaje de confirmación de eliminación.
    ```json

@@ -111,7 +111,7 @@ class ArticleService {
     if (!article) {
       throw new NotFoundError();
     }
-    await article.destroy();
+    await article.update({ active: 0 });
   }
 }
 

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6c9a4685-07ee-4a9b-bc21-24c0ca953952",
+		"_postman_id": "ea909d21-ff01-4678-ac5b-8a4e6ee5b00b",
 		"name": "RestAPI-Flexxus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32668882"
@@ -59,10 +59,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"let currentIndex = parseInt(pm.globals.get(\"currentIndex\"), 10);\r",
-									"if (currentIndex === 1) { // Porque se incrementa después de la primera solicitud\r",
-									"    pm.globals.set(\"articleId\", pm.response.json().id);\r",
-									"}"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -72,46 +69,6 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"// Lista de objetos a enviar en diferentes ejecuciones\r",
-									"const items = [\r",
-									"    { \"name\": \"Celular\", \"brand\": \"Samsung\" },\r",
-									"    { \"name\": \"Tablet\", \"brand\": \"Apple\" },\r",
-									"    { \"name\": \"Laptop\", \"brand\": \"Dell\" },\r",
-									"    { \"name\": \"Cámara\", \"brand\": \"Nikon\" },\r",
-									"    { \"name\": \"Televisor\", \"brand\": \"LG\" },\r",
-									"    { \"name\": \"Refrigerador\", \"brand\": \"Whirlpool\" },\r",
-									"    { \"name\": \"Aspiradora\", \"brand\": \"Dyson\" },\r",
-									"    { \"name\": \"Parlante\", \"brand\": \"Sony\" },\r",
-									"    { \"name\": \"Microondas\", \"brand\": \"Panasonic\" },\r",
-									"    { \"name\": \"Impresora\", \"brand\": \"HP\" },\r",
-									"    { \"name\": \"Router\", \"brand\": \"TP-Link\" },\r",
-									"    { \"name\": \"Monitor\", \"brand\": \"Acer\" },\r",
-									"    { \"name\": \"Consola\", \"brand\": \"Microsoft\" },\r",
-									"    { \"name\": \"Smartwatch\", \"brand\": \"Garmin\" },\r",
-									"    { \"name\": \"Licuadora\", \"brand\": \"Oster\" },\r",
-									"    { \"name\": \"Cafetera\", \"brand\": \"Nespresso\" },\r",
-									"    { \"name\": \"Auriculares\", \"brand\": \"JBL\" },\r",
-									"    { \"name\": \"Ventilador\", \"brand\": \"Atma\" },\r",
-									"    { \"name\": \"Heladera\", \"brand\": \"Mabe\" },\r",
-									"    { \"name\": \"Lavarropas\", \"brand\": \"Electrolux\" }\r",
-									"]\r",
-									"\r",
-									"\r",
-									"// Obtener el índice actual (inicializar a 0 si no está definido)\r",
-									"let currentIndex = pm.globals.get(\"currentIndex\") || 0;\r",
-									"currentIndex = parseInt(currentIndex, 10);\r",
-									"\r",
-									"// Configurar el cuerpo de la solicitud según el índice actual\r",
-									"pm.request.body.raw = JSON.stringify(items[currentIndex]);\r",
-									"\r",
-									"// Incrementar el índice para la siguiente solicitud\r",
-									"pm.globals.set(\"currentIndex\", currentIndex + 1);\r",
-									"\r",
-									"// Configurar la siguiente solicitud, o detener si ya se ejecutaron todos\r",
-									"if (currentIndex < items.length - 1) {\r",
-									"    pm.execution.setNextRequest(pm.info.requestName); // Ejecutar de nuevo la misma solicitud\r",
-									"} else {\r",
-									"}\r",
 									""
 								],
 								"type": "text/javascript",
@@ -124,7 +81,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{ \r\n    \"name\": \"Celular\", \r\n    \"brand\": \"Samsung\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -433,7 +390,7 @@
 								"exec": [
 									"let currentIndex = parseInt(pm.globals.get(\"currentIndex\"), 10);\r",
 									"if (currentIndex === 1) { // Porque se incrementa después de la primera solicitud\r",
-									"    pm.globals.set(\"articleId\", pm.response.json().id);\r",
+									"    pm.globals.set(\"articleId\", pm.response.json().data.id);\r",
 									"}"
 								],
 								"type": "text/javascript",
@@ -444,7 +401,6 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"// Lista de objetos a enviar en diferentes ejecuciones\r",
 									"const items = [\r",
 									"    { \"name\": \"Celular\", \"brand\": \"Samsung\" },\r",
 									"    { \"name\": \"Tablet\", \"brand\": \"Apple\" },\r",
@@ -466,23 +422,26 @@
 									"    { \"name\": \"Ventilador\", \"brand\": \"Atma\" },\r",
 									"    { \"name\": \"Heladera\", \"brand\": \"Mabe\" },\r",
 									"    { \"name\": \"Lavarropas\", \"brand\": \"Electrolux\" }\r",
-									"]\r",
+									"];\r",
 									"\r",
-									"\r",
-									"// Obtener el índice actual (inicializar a 0 si no está definido)\r",
+									"// Obtener el índice actual\r",
 									"let currentIndex = pm.globals.get(\"currentIndex\") || 0;\r",
 									"currentIndex = parseInt(currentIndex, 10);\r",
 									"\r",
-									"// Configurar el cuerpo de la solicitud según el índice actual\r",
-									"pm.request.body.raw = JSON.stringify(items[currentIndex]);\r",
+									"// Verificar si el índice es válido\r",
+									"if (currentIndex < items.length-1) {\r",
+									"    const currentItem = items[currentIndex];\r",
 									"\r",
-									"// Incrementar el índice para la siguiente solicitud\r",
-									"pm.globals.set(\"currentIndex\", currentIndex + 1);\r",
+									"    // Guardar el objeto actual en una variable local\r",
+									"    pm.variables.set(\"currentItem\", JSON.stringify(currentItem));\r",
 									"\r",
-									"// Configurar la siguiente solicitud, o detener si ya se ejecutaron todos\r",
-									"if (currentIndex < items.length - 1) {\r",
-									"    pm.execution.setNextRequest(pm.info.requestName); // Ejecutar de nuevo la misma solicitud\r",
+									"    // Incrementar el índice para la siguiente ejecución\r",
+									"    pm.globals.set(\"currentIndex\", currentIndex + 1);\r",
+									"\r",
+									"    // Ejecutar nuevamente la misma solicitud\r",
+									"    pm.execution.setNextRequest(pm.info.requestName);\r",
 									"} else {\r",
+									"    pm.globals.unset(\"currentIndex\");\r",
 									"}\r",
 									""
 								],
@@ -496,7 +455,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{{currentItem}}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -55,8 +55,8 @@ export class FilterArticleDto {
   brand?: string;
 
   @IsOptional()
-  @Transform(({ value }) => value ?? 1)
-  @IsIn([0, 1], { message: "active debe ser 0 o 1" })
+  @Transform(({ value }) => value ?? "1")
+  @IsIn(["0", "1"], { message: "active debe ser 0 o 1" })
   active?: number;
 
   static fromPlain(plain: object) {

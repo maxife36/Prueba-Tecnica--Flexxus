@@ -39,14 +39,14 @@ class UserService {
     if (errors.length > 0) {
       throw ValidationErrorHandler(errors);
     }
-
+    
     //dejo abierto para futuro filtrar por otros parametros modificando el user.dto
     const user = await User.findOne({
       where: {
         [Op.or]: [{ username: userDto.username }],
       },
     });
-
+    
     if (!user) {
       throw new NotFoundError();
     }
